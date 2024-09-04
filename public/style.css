@@ -1,0 +1,28 @@
+
+.reset {
+    border: 1rem solid red;
+}
+.mole-button {
+    background: url('/images/mole.jpg') no-repeat;
+}
+.gridContainer {
+    min-height: 175px;
+    
+}
+.page {
+display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+}
+.reset {
+    color: #00B7FF;
+  }
+  .button, .cell {
+    height: 50px;
+    width: 50px;;
+  }
+.info {
+    margin-right: 2rem;
+}

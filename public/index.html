@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Site</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+  <script>
+
+let score= 0;
+
+const moleClicked = (id) => {
+  score++;
+  console.log(`${id} clicked, score is ${score}`);
+  htmx.swap(htmx.find(`#${id}`), "", {swapStyle: 'outerHTML'});
+  htmx.swap(htmx.find(`#info`), getScore(), {swapStyle: 'innerHTML'});
+}
+
+
+const bunnyClicked = (id) => {
+  score--;
+  htmx.swap(htmx.find(`#${id}`), "", {swapStyle: 'outerHTML'});
+  console.log(`${id} clicked, score is ${score}`);
+  htmx.swap(htmx.find(`#info`), getScore(), {swapStyle: 'innerHTML'});
+}
+
+const getScore = () => {
+  return `Score: ${score}`
+}
+
+var setGrid = () => {
+  let newGrid ="<table class='grid'>";
+  for (let i=1; i<4; i++) {
+    newGrid += "<tr>"
+    for (let j = 1; j< 4; j++) {
+      const isMole = Math.floor(Math.random() * 2);
+      const id = "r"+i+"c"+j;
+      
+      if(isMole) {
+        newGrid+= `<td class='cell'><input type='image' class='button' src='/images/mole.jpg' id='${id}' hx-on:click='moleClicked(this.id)' /></td>`
+      } else {
+        newGrid+= `<td class='cell'><input type='image' class='button' src='/images/bunny.png' id='${id}' hx-on:click='bunnyClicked(this.id)' /></td>`
+      }
+        
+    }
+    newGrid += "</tr>"
+    }
+    newGrid+="</table>"
+
+  htmx.swap(htmx.find("#grid"), newGrid, {swapStyle: 'innerHTML'});
+  htmx.swap(htmx.find("#info"), getScore(), {swapStyle: 'innerHTML'});
+} 
+
+// add a click listener to the given div
+htmx.on("#reset", "click", (evt) => setGrid());
+
+  </script>
+</head>
+<body>
+<div class="page">
+  <div id="info"> Press reset to generate a new grid</div>
+  <div id="grid" class="gridContainer">
+  </div>
+<div>
+  <button id="reset" class="reset">
+    Reset
+</button>  
+</div>
+</div>
+</body>
+</html>
